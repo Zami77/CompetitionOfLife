@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.311475, 0.612022, 0.836066, 0.983607 )
+colors = PoolColorArray( 0.152941, 0.290196, 0.309804, 1, 0.192157, 0.423529, 0.45098, 1, 0.129412, 0.658824, 0.713726, 1, 0.707589, 0.885406, 0.903847, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 576
+
+[node name="GameScreen" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Bakground" type="TextureRect" parent="CanvasLayer"]
+margin_right = 576.0
+margin_bottom = 1024.0
+texture = SubResource( 2 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
