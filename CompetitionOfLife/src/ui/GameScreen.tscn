@@ -11,6 +11,7 @@ width = 576
 [node name="GameScreen" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -10
 
 [node name="Bakground" type="TextureRect" parent="CanvasLayer"]
 margin_right = 576.0

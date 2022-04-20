@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Empty_Cell.png-902f6b36a0f21606db3e5b7fad5efd13.stex"
+path="res://.import/Empty_Cell.png-748948962d1ad9a79aa8402b1fdc4e2b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cell/Empty_Cell.png"
-dest_files=[ "res://.import/Empty_Cell.png-902f6b36a0f21606db3e5b7fad5efd13.stex" ]
+source_file="res://assets/Cell/Empty_Cell.png"
+dest_files=[ "res://.import/Empty_Cell.png-748948962d1ad9a79aa8402b1fdc4e2b.stex" ]
 
 [params]
 
