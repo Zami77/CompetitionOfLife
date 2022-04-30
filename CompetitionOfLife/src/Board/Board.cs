@@ -29,6 +29,31 @@ public class Board : Node2D
 		InitPopulateGrid();
 	}
 
+	public override void _Process(float delta)
+	{
+		TouchInput();
+	}
+
+	private void TouchInput()
+	{
+		if (Input.IsActionJustPressed("ui_touch"))
+		{
+			// TODO: change cell status
+			var touchPos = GetGlobalMousePosition();
+			var gridPos = PixelToGrid(touchPos.x, touchPos.y);
+			if (IsValidGrid(gridPos))
+			{
+				GD.Print($"Grid Position: {gridPos.x}, {gridPos.y}");
+			}
+		}
+	}
+
+	private bool IsValidGrid(Vector2 gridPos)
+	{
+		return gridPos.x >= 0 && gridPos.x < width &&
+			gridPos.y >= 0 && gridPos.y < height;
+	}
+
 	private void InitPopulateGrid()
 	{
 		for(int row = 0; row < Grid.GetLength(0); row++) {
@@ -48,5 +73,13 @@ public class Board : Node2D
 		int new_y = y_Start + -tileSize * column;
 
 		return new Vector2(new_x, new_y);
+	}
+
+	private Vector2 PixelToGrid(float x, float y)
+	{
+		var new_x = (x - x_Start) / tileSize;
+		var new_y = (y - y_Start) / -tileSize;
+		
+		return new Vector2((int)Math.Round(new_x), (int)Math.Round(new_y));
 	}
 }
