@@ -13,7 +13,7 @@ width = 576
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -10
 
-[node name="Bakground" type="TextureRect" parent="CanvasLayer"]
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
 margin_right = 576.0
 margin_bottom = 1024.0
 texture = SubResource( 2 )
