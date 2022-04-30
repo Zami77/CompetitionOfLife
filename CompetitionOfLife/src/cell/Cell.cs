@@ -7,11 +7,10 @@ public class Cell : Node2D
 	CellState State { get; set; } = CellState.Empty;
 	CellColor Color { get; set; } = CellColor.White;
 
-	public Cell()
-	{}
-	public Cell(Vector2 _location)
+	public void Init(Vector2 _location)
 	{
-		this.Location = _location;
+		Location = _location;
+		this.Position = Location;
 	}
 }
 

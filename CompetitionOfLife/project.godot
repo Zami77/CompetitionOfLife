@@ -19,6 +19,10 @@ config/icon="res://icon.png"
 window/size/width=576
 window/size/height=1024
 
+[global]
+
+mono=false
+
 [input]
 
 ui_touch={
@@ -26,6 +30,11 @@ ui_touch={
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
+
+[mono]
+
+debugger_agent/wait_for_debugger=true
+debugger_agent/wait_timeout=30000
 
 [physics]
 

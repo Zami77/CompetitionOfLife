@@ -6,3 +6,8 @@
 
 [node name="Board" parent="." instance=ExtResource( 1 )]
 position = Vector2( 41, 193 )
+width = null
+height = null
+x_Start = null
+y_Start = null
+offset = null
