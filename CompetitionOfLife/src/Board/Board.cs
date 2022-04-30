@@ -16,6 +16,9 @@ public class Board : Node2D
 
 	private PackedScene cell;
 
+	private bool isPlayerTurn = true;
+	private int currentRound = 1;
+	private int totalRounds = 10;
 	public Cell[,] Grid { get; set; }
 
 	public Board()
@@ -36,7 +39,7 @@ public class Board : Node2D
 
 	private void TouchInput()
 	{
-		if (Input.IsActionJustPressed("ui_touch"))
+		if (Input.IsActionJustPressed("ui_touch") && isPlayerTurn)
 		{
 			// TODO: change cell status
 			var touchPos = GetGlobalMousePosition();
@@ -44,6 +47,7 @@ public class Board : Node2D
 			if (IsValidGrid(gridPos))
 			{
 				GD.Print($"Grid Position: {gridPos.x}, {gridPos.y}");
+				Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(CellColor.Blue, CellState.Active);
 			}
 		}
 	}
