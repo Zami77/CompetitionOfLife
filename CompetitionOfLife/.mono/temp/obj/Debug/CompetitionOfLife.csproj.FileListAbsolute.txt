@@ -1,9 +1,0 @@
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\bin\Debug\CompetitionOfLife.dll
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\bin\Debug\CompetitionOfLife.pdb
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\obj\Debug\CompetitionOfLife.csproj.AssemblyReference.cache
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\obj\Debug\CompetitionOfLife.GeneratedMSBuildEditorConfig.editorconfig
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\obj\Debug\CompetitionOfLife.AssemblyInfoInputs.cache
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\obj\Debug\CompetitionOfLife.AssemblyInfo.cs
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\obj\Debug\CompetitionOfLife.csproj.CoreCompileInputs.cache
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\obj\Debug\CompetitionOfLife.dll
-D:\chunk\Documents\GitHub\CompetitionOfLife\CompetitionOfLife\.mono\temp\obj\Debug\CompetitionOfLife.pdb
