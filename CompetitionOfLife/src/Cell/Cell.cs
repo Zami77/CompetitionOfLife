@@ -4,7 +4,7 @@ using System;
 public class Cell : Node2D
 {
 	Vector2 Location { get; set; } = Vector2.Zero;
-	CellState State { get; set; } = CellState.Empty;
+	public CellState State { get; set; } = CellState.Empty;
 	CellColor Color { get; set; } = CellColor.White;
 	Sprite sprite;
 	Texture emptyCell;
@@ -29,6 +29,13 @@ public class Cell : Node2D
 		Color = newColor;
 		State = newState;
 
+		UpdateCellColor();
+	}
+
+	public void UpdateCell(CellState newState)
+	{
+		State = newState;
+		Color = newState == CellState.Active ? CellColor.Blue : CellColor.White;
 		UpdateCellColor();
 	}
 

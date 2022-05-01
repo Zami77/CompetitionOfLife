@@ -20,10 +20,12 @@ public class Board : Node2D
 	private int currentRound = 1;
 	private int totalRounds = 10;
 	public Cell[,] Grid { get; set; }
+	private CellState[,] bufferGrid;
 
 	public Board()
 	{
 		Grid = new Cell[width, height];
+		bufferGrid = new CellState[width, height];
 	}
 
 	public override void _Ready()
@@ -39,9 +41,8 @@ public class Board : Node2D
 
 	private void TouchInput()
 	{
-		if (Input.IsActionJustPressed("ui_touch") && isPlayerTurn)
+		if (isPlayerTurn && Input.IsActionJustPressed("ui_touch"))
 		{
-			// TODO: change cell status
 			var touchPos = GetGlobalMousePosition();
 			var gridPos = PixelToGrid(touchPos.x, touchPos.y);
 			if (IsValidGrid(gridPos))
@@ -50,6 +51,98 @@ public class Board : Node2D
 				Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(CellColor.Blue, CellState.Active);
 			}
 		}
+	}
+
+	private void HandleTurn()
+	{
+		// Fill buffer grid
+		for (int row = 0; row < Grid.GetLength(0); row++)
+		{
+			for (int col = 0; col < Grid.GetLength(1); col++)
+			{
+				bufferGrid[row, col] = SolveCell(row, col);
+			}
+		}
+
+		// Transfer buffer grid to actual grid
+		for (int row = 0; row < Grid.GetLength(0); row++)
+		{
+			for (int col = 0; col < Grid.GetLength(1); col++)
+			{
+				Grid[row, col].UpdateCell(bufferGrid[row, col]);
+			}
+		}
+	}
+
+	private CellState SolveCell(int row, int col)
+	{
+		var curNeighbors = CountNeighbors(row, col);
+		var curCell = Grid[row, col];
+
+		if (curCell.State == CellState.Active)
+		{
+			if (curNeighbors == 2 || curNeighbors == 3) {
+				return CellState.Active;
+			}
+		}
+		// Dead Cell
+		else 
+		{
+			if (curNeighbors == 3)
+			{
+				return CellState.Active;
+			}
+		}
+
+		return CellState.Empty;
+	}
+
+	private int CountNeighbors(int row, int col)
+	{
+		int neighbors = 0;
+
+		// Check all 8 neighbors
+		if (row > 0 && Grid[row - 1, col].State == CellState.Active) 
+		{
+			neighbors++;
+		}
+		
+		if (row > 0 && col > 0 && Grid[row - 1, col - 1].State == CellState.Active) 
+		{
+			neighbors++;
+		}
+
+		if (col > 0 && Grid[row, col - 1].State == CellState.Active) 
+		{
+			neighbors++;
+		}
+
+		if (row < width - 1 && col > 0 && Grid[row + 1, col - 1].State == CellState.Active) 
+		{
+			neighbors++;
+		}
+
+		if (row < width - 1 && Grid[row + 1, col].State == CellState.Active)
+		{
+			neighbors++;
+		}
+
+		if (row < width - 1 && col < height - 1 && Grid[row + 1, col + 1].State == CellState.Active)
+		{
+			neighbors++;
+		}
+
+		if (col < height - 1 && Grid[row, col + 1].State == CellState.Active)
+		{
+			neighbors++;
+		}
+
+		if (row > 0 && col < height - 1 && Grid[row - 1, col + 1].State == CellState.Active)
+		{
+			neighbors++;
+		}
+
+		return neighbors;
 	}
 
 	private bool IsValidGrid(Vector2 gridPos)
@@ -86,4 +179,10 @@ public class Board : Node2D
 		
 		return new Vector2((int)Math.Round(new_x), (int)Math.Round(new_y));
 	}
+	private void _on_Button_pressed()
+	{
+		HandleTurn();
+	}
 }
+
+
