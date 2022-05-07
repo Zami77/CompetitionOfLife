@@ -48,14 +48,26 @@ public class Board : Node2D
 		{
 			var touchPos = GetGlobalMousePosition();
 			var gridPos = PixelToGrid(touchPos.x, touchPos.y);
-			if (IsValidGrid(gridPos) && Grid[(int)gridPos.x, (int)gridPos.y].State == CellState.Empty)
+			if (IsValidGrid(gridPos) && (Grid[(int)gridPos.x, (int)gridPos.y].State == CellState.Empty || selectedCell == gridPos))
 			{
  				GD.Print($"Grid Position: {gridPos.x}, {gridPos.y}");
+
+				var curState = Grid[(int)gridPos.x, (int)gridPos.y].State;
+
+				if (curState == CellState.Active)
+				{
+					Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(CellState.Empty);
+				}
+				else 
+				{
+					Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(cellColor, CellState.Active);
+				}
+				
 				if (selectedCell != -Vector2.One) 
 				{
 					Grid[(int)selectedCell.x, (int)selectedCell.y].UpdateCell(CellState.Empty);
 				}
-				Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(cellColor, CellState.Active);
+				
 				selectedCell = gridPos;
 			}
 		}
@@ -185,8 +197,8 @@ public class Board : Node2D
 	{
 		var startingPattern = StartingPatternHelper.GetStartingPattern();
 
-		var midHeight = height / 2 - 1;
 		var midWidth = width / 2 - 2;
+		var midHeight = height / 2 - 1;
 
 		foreach(var cell in startingPattern.Cells)
 		{
