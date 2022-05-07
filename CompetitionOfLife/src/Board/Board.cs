@@ -21,6 +21,7 @@ public class Board : Node2D
 	private int totalRounds = 10;
 	public Cell[,] Grid { get; set; }
 	private CellState[,] bufferGrid;
+	private Vector2 selectedCell = -Vector2.One;
 
 	public Board()
 	{
@@ -45,10 +46,15 @@ public class Board : Node2D
 		{
 			var touchPos = GetGlobalMousePosition();
 			var gridPos = PixelToGrid(touchPos.x, touchPos.y);
-			if (IsValidGrid(gridPos))
+			if (IsValidGrid(gridPos) && Grid[(int)gridPos.x, (int)gridPos.y].State == CellState.Empty)
 			{
-				GD.Print($"Grid Position: {gridPos.x}, {gridPos.y}");
+ 				GD.Print($"Grid Position: {gridPos.x}, {gridPos.y}");
+				if (selectedCell != -Vector2.One) 
+				{
+					Grid[(int)selectedCell.x, (int)selectedCell.y].UpdateCell(CellState.Empty);
+				}
 				Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(CellColor.Blue, CellState.Active);
+				selectedCell = gridPos;
 			}
 		}
 	}
@@ -72,6 +78,8 @@ public class Board : Node2D
 				Grid[row, col].UpdateCell(bufferGrid[row, col]);
 			}
 		}
+
+		selectedCell = -Vector2.One;
 	}
 
 	private CellState SolveCell(int row, int col)
@@ -162,6 +170,11 @@ public class Board : Node2D
 				Grid[row,col] = newCell;
 			}
 		}
+	}
+
+	private void InitCellSettlement()
+	{
+		// TODO: Set up random init cell settlement
 	}
 
 	private Vector2 GridToPixel(int row, int column)
