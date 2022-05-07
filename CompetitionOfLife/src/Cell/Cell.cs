@@ -14,7 +14,7 @@ public class Cell : Node2D
 	public override void _Ready()
 	{
 		emptyCell = (Texture)ResourceLoader.Load<Texture>("res://assets/Cell/Empty_Cell.png");
-		redCell = (Texture)ResourceLoader.Load<Texture>("res://assets/Cell/Empty_Cell.png");
+		redCell = (Texture)ResourceLoader.Load<Texture>("res://assets/Cell/Red_Cell.png");
 		blueCell = (Texture)ResourceLoader.Load<Texture>("res://assets/Cell/Blue_Cell.png");
 		sprite = GetNode<Sprite>("Sprite");
 	}

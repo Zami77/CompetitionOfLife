@@ -42,12 +42,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BoardBlue" parent="." instance=ExtResource( 1 )]
-
 [node name="BoardRed" parent="." instance=ExtResource( 1 )]
 x_Start = 640
 cellColor = 2
 isAI = true
+
+[node name="BoardBlue" parent="." instance=ExtResource( 1 )]
 
 [node name="Button" type="Button" parent="."]
 margin_left = 525.0
