@@ -47,6 +47,7 @@ __meta__ = {
 [node name="BoardRed" parent="." instance=ExtResource( 1 )]
 x_Start = 640
 cellColor = 2
+isAI = true
 
 [node name="Button" type="Button" parent="."]
 margin_left = 525.0

@@ -15,10 +15,10 @@ public class Board : Node2D
 	private int tileSize = 64;
 	[Export]
 	private CellColor cellColor = CellColor.Blue;
-
+	[Export]
+	private bool isAI = false;
 	private PackedScene cell;
 
-	private bool isPlayerTurn = true;
 	private int currentRound = 1;
 	private int totalRounds = 10;
 	public Cell[,] Grid { get; set; }
@@ -44,7 +44,7 @@ public class Board : Node2D
 
 	private void TouchInput()
 	{
-		if (isPlayerTurn && Input.IsActionJustPressed("ui_touch"))
+		if (!isAI && Input.IsActionJustPressed("ui_touch"))
 		{
 			var touchPos = GetGlobalMousePosition();
 			var gridPos = PixelToGrid(touchPos.x, touchPos.y);
@@ -78,7 +78,7 @@ public class Board : Node2D
 			for (int col = 0; col < Grid.GetLength(1); col++)
 			{
 				var bufferState = bufferGrid[row, col];
-				
+
 				Grid[row, col].UpdateCell(
 					bufferState == CellState.Active ? cellColor : CellColor.White, 
 					bufferState

@@ -3,9 +3,9 @@ using System;
 
 public class Cell : Node2D
 {
-	Vector2 Location { get; set; } = Vector2.Zero;
+	public Vector2 Location { get; set; } = Vector2.Zero;
 	public CellState State { get; set; } = CellState.Empty;
-	CellColor Color { get; set; } = CellColor.White;
+	public CellColor Color { get; set; } = CellColor.White;
 	Sprite sprite;
 	Texture emptyCell;
 	Texture redCell;
