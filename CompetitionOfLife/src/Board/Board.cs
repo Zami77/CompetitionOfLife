@@ -13,6 +13,8 @@ public class Board : Node2D
 	private int y_Start = 800;
 	[Export]
 	private int tileSize = 64;
+	[Export]
+	private CellColor cellColor = CellColor.Blue;
 
 	private PackedScene cell;
 
@@ -53,7 +55,7 @@ public class Board : Node2D
 				{
 					Grid[(int)selectedCell.x, (int)selectedCell.y].UpdateCell(CellState.Empty);
 				}
-				Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(CellColor.Blue, CellState.Active);
+				Grid[(int)gridPos.x, (int)gridPos.y].UpdateCell(cellColor, CellState.Active);
 				selectedCell = gridPos;
 			}
 		}
@@ -75,7 +77,12 @@ public class Board : Node2D
 		{
 			for (int col = 0; col < Grid.GetLength(1); col++)
 			{
-				Grid[row, col].UpdateCell(bufferGrid[row, col]);
+				var bufferState = bufferGrid[row, col];
+				
+				Grid[row, col].UpdateCell(
+					bufferState == CellState.Active ? cellColor : CellColor.White, 
+					bufferState
+				);
 			}
 		}
 
@@ -170,11 +177,21 @@ public class Board : Node2D
 				Grid[row,col] = newCell;
 			}
 		}
+
+		InitStartingPattern();
 	}
 
-	private void InitCellSettlement()
+	private void InitStartingPattern()
 	{
-		// TODO: Set up random init cell settlement
+		var startingPattern = StartingPatternHelper.GetStartingPattern();
+
+		var midHeight = height / 2 - 1;
+		var midWidth = width / 2 - 2;
+
+		foreach(var cell in startingPattern.Cells)
+		{
+			Grid[cell.x + midWidth, cell.y + midHeight].UpdateCell(cellColor, CellState.Active);
+		}
 	}
 
 	private Vector2 GridToPixel(int row, int column)
@@ -197,5 +214,3 @@ public class Board : Node2D
 		HandleTurn();
 	}
 }
-
-
