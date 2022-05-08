@@ -54,7 +54,7 @@ public static class BoardSolver
 		Cell[,] grid, 
 		CellState[,] bufferGrid, 
 		int depth = 0,
-		int maxDepth = 5)
+		int maxDepth = 6)
     {
 		int score = CountCells(grid);
 		int width = grid.GetLength(0);
