@@ -4,7 +4,7 @@ using System;
 public class Board : Node2D
 {
 	[Signal]
-	delegate void FinalScore(int finalScore);
+	public delegate void FinalScore(int finalScore, string boardName);
 	[Export]
 	private int width = 8;
 	[Export]
@@ -21,7 +21,7 @@ public class Board : Node2D
 	private bool isAI = false;
 	private PackedScene cell;
 	private int currentRound = 1;
-	private int totalRounds = 10;
+	private const int totalRounds = 10;
 	public Cell[,] Grid { get; set; }
 	private CellState[,] bufferGrid;
 	private Vector2 selectedCell = -Vector2.One;
@@ -35,6 +35,12 @@ public class Board : Node2D
 	public override void _Ready()
 	{
 		cell = (PackedScene)ResourceLoader.Load("res://src/Cell/Cell.tscn");
+		Button button = this.GetNode<Button>("../Button");
+		GameController gameController = this.GetNode<GameController>("../GameController");
+
+		button.Connect("pressed", this, nameof(_on_Button_pressed));
+		gameController.Connect(nameof(GameController.GameReset), this, nameof(Board.BoardReset));
+
 		InitPopulateGrid();
 	}
 
@@ -96,7 +102,7 @@ public class Board : Node2D
 
 		if (currentRound++ >= totalRounds)
 		{
-			this.EmitSignal(nameof(FinalScore), BoardSolver.CountCells(Grid));
+			this.EmitSignal(nameof(FinalScore), BoardSolver.CountCells(Grid), this.Name);
 		}
 	}
 
@@ -149,6 +155,13 @@ public class Board : Node2D
 		
 		return new Vector2((int)Math.Round(new_x), (int)Math.Round(new_y));
 	}
+
+	private void BoardReset()
+	{
+		currentRound = 1;
+		InitPopulateGrid();
+	}
+	
 	private void _on_Button_pressed()
 	{
 		HandleTurn();
