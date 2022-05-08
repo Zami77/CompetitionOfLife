@@ -10,6 +10,7 @@ public class Cell : Node2D
 	Texture emptyCell;
 	Texture redCell;
 	Texture blueCell;
+	bool initRan = false;
 
 	public override void _Ready()
 	{
@@ -22,6 +23,7 @@ public class Cell : Node2D
 	{
 		Location = _location;
 		Position = Location;
+		initRan = true;
 	}
 
 	public void UpdateCell(CellColor newColor, CellState newState)
@@ -41,6 +43,13 @@ public class Cell : Node2D
 
 	private void UpdateCellColor()
 	{
+		// This is to prevent issues from FindOptimalMove,
+		// as cells are not created as nodes for solving.
+		if (!initRan)
+		{
+			return;
+		}
+
 		switch(Color) 
 		{
 			case CellColor.Blue:
@@ -54,11 +63,6 @@ public class Cell : Node2D
 				sprite.Texture = emptyCell;
 				break;
 		}
-	}
-
-	private void UpdateCellState()
-	{
-		// TODO: Implement updating cell state
 	}
 }
 

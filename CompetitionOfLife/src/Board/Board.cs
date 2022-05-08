@@ -75,102 +75,17 @@ public class Board : Node2D
 
 	private void HandleTurn()
 	{
-		// Fill buffer grid
-		for (int row = 0; row < Grid.GetLength(0); row++)
+		if (isAI)
 		{
-			for (int col = 0; col < Grid.GetLength(1); col++)
-			{
-				bufferGrid[row, col] = SolveCell(row, col);
-			}
+			// TODO: Have AI select move
 		}
 
-		// Transfer buffer grid to actual grid
-		for (int row = 0; row < Grid.GetLength(0); row++)
-		{
-			for (int col = 0; col < Grid.GetLength(1); col++)
-			{
-				var bufferState = bufferGrid[row, col];
-
-				Grid[row, col].UpdateCell(
-					bufferState == CellState.Active ? cellColor : CellColor.White, 
-					bufferState
-				);
-			}
-		}
+		BoardSolver.SolveGrid(Grid, bufferGrid, cellColor);
 
 		selectedCell = -Vector2.One;
 	}
 
-	private CellState SolveCell(int row, int col)
-	{
-		var curNeighbors = CountNeighbors(row, col);
-		var curCell = Grid[row, col];
-
-		if (curCell.State == CellState.Active)
-		{
-			if (curNeighbors == 2 || curNeighbors == 3) {
-				return CellState.Active;
-			}
-		}
-		// Dead Cell
-		else 
-		{
-			if (curNeighbors == 3)
-			{
-				return CellState.Active;
-			}
-		}
-
-		return CellState.Empty;
-	}
-
-	private int CountNeighbors(int row, int col)
-	{
-		int neighbors = 0;
-
-		// Check all 8 neighbors
-		if (row > 0 && Grid[row - 1, col].State == CellState.Active) 
-		{
-			neighbors++;
-		}
-		
-		if (row > 0 && col > 0 && Grid[row - 1, col - 1].State == CellState.Active) 
-		{
-			neighbors++;
-		}
-
-		if (col > 0 && Grid[row, col - 1].State == CellState.Active) 
-		{
-			neighbors++;
-		}
-
-		if (row < width - 1 && col > 0 && Grid[row + 1, col - 1].State == CellState.Active) 
-		{
-			neighbors++;
-		}
-
-		if (row < width - 1 && Grid[row + 1, col].State == CellState.Active)
-		{
-			neighbors++;
-		}
-
-		if (row < width - 1 && col < height - 1 && Grid[row + 1, col + 1].State == CellState.Active)
-		{
-			neighbors++;
-		}
-
-		if (col < height - 1 && Grid[row, col + 1].State == CellState.Active)
-		{
-			neighbors++;
-		}
-
-		if (row > 0 && col < height - 1 && Grid[row - 1, col + 1].State == CellState.Active)
-		{
-			neighbors++;
-		}
-
-		return neighbors;
-	}
+	
 
 	private bool IsValidGrid(Vector2 gridPos)
 	{
