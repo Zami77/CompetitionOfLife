@@ -3,6 +3,8 @@ using System;
 
 public class Board : Node2D
 {
+	[Signal]
+	delegate void FinalScore(int finalScore);
 	[Export]
 	private int width = 8;
 	[Export]
@@ -17,10 +19,7 @@ public class Board : Node2D
 	private CellColor cellColor = CellColor.Blue;
 	[Export]
 	private bool isAI = false;
-	private (int x, int y) aiMove = (x: -1, y: -1);
-	private bool isFirstTurn = true;
 	private PackedScene cell;
-
 	private int currentRound = 1;
 	private int totalRounds = 10;
 	public Cell[,] Grid { get; set; }
@@ -81,7 +80,8 @@ public class Board : Node2D
 		{
 			var move = BoardSolver.FindOptimalMove(Grid, bufferGrid);
 
-			if (move.x == -1 || move.y == -1) {
+			if (move.x == -1 || move.y == -1) 
+			{
 				// Choosing no cell is optimal
 			}
 			else
@@ -93,9 +93,12 @@ public class Board : Node2D
 		BoardSolver.SolveGrid(Grid, bufferGrid, cellColor);
 
 		selectedCell = -Vector2.One;
-	}
 
-	
+		if (currentRound++ >= totalRounds)
+		{
+			this.EmitSignal(nameof(FinalScore), BoardSolver.CountCells(Grid));
+		}
+	}
 
 	private bool IsValidGrid(Vector2 gridPos)
 	{

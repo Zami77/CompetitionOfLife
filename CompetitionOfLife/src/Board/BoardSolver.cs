@@ -138,7 +138,7 @@ public static class BoardSolver
         return grid;
     }
 
-    private static int CountCells(Cell[,] grid)
+    public static int CountCells(Cell[,] grid)
     {
         int cells = 0;
 
