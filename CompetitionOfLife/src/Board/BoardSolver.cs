@@ -1,18 +1,94 @@
+using System;
+
 public static class BoardSolver
 {
     public static (int x, int y) FindOptimalMove(Cell[,] grid, CellState[,] bufferGrid)
     {
         var gridCopy = CellGridDeepCopy(grid);
-        return FindOptimalMove(gridCopy, bufferGrid, (x: -1, y: -1), -1);
+		int width = gridCopy.GetLength(0);
+		int height = gridCopy.GetLength(1);
+		BestMove bestMove = new BestMove();
+
+		// Perform check with no move
+		int noMoveVal = MaxAlgo(SolveGrid(CellGridDeepCopy(gridCopy), bufferGrid), bufferGrid);
+		if (noMoveVal >= bestMove.maxScore)
+		{
+			bestMove.x = -1;
+			bestMove.y = -1;
+			bestMove.maxScore = noMoveVal;
+		}
+
+		// Check all viable grids
+		for (int row = 0; row < width; row++)
+		{
+			for (int col = 0; col < height; col++)
+			{
+				var curCell = gridCopy[row, col];
+				if (curCell.State == CellState.Empty && CountNeighbors(row, col, gridCopy) > 1)
+				{
+					curCell.State = CellState.Active;
+					int moveVal = MaxAlgo(SolveGrid(CellGridDeepCopy(gridCopy), bufferGrid), bufferGrid);
+					curCell.State = CellState.Empty;
+
+					if (moveVal >= bestMove.maxScore)
+					{
+						bestMove.x = row;
+						bestMove.y = col;
+						bestMove.maxScore = moveVal;
+					}
+				}
+			}
+		}
+
+        return (x: bestMove.x, y: bestMove.y);
     }
 
-    private static (int x, int y) FindOptimalMove(Cell[,] grid, CellState[,] bufferGrid, (int x, int y) resCoord, int resMax, int depth = 5)
-    {
-        // TODO: Solve for each potential cell, up to a depth of 5
-        // Check base grid first, with no cell selected, then iterate
-        // through all grid cells, ignoring ones which are already active
+	internal class BestMove
+	{
+		public int x = -1;
+		public int y = -1;
+		public int maxScore = -1;
+	}
 
-        return resCoord;
+    private static int MaxAlgo(
+		Cell[,] grid, 
+		CellState[,] bufferGrid, 
+		int depth = 0,
+		int maxDepth = 5)
+    {
+		int score = CountCells(grid);
+		int width = grid.GetLength(0);
+		int height = grid.GetLength(1);
+
+		if (depth == maxDepth)
+		{
+			return score;
+		}
+
+		int maxScore = -1;
+
+		for (int row = 0; row < width; row++)
+		{
+			for (int col = 0; col < height; col++)
+			{
+				var curCell = grid[row, col];
+				if (curCell.State == CellState.Empty && CountNeighbors(row, col, grid) > 1)
+				{
+					curCell.State = CellState.Active;
+					maxScore = Math.Max(
+						MaxAlgo(
+							SolveGrid(grid, bufferGrid),
+							bufferGrid,
+							depth + 1,
+							maxDepth
+						),
+						maxScore
+					);
+					curCell.State = CellState.Empty;
+				}
+			}
+		}
+		return maxScore;
     }
 
     public static Cell[,] CellGridDeepCopy(Cell[,] grid)

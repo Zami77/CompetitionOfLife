@@ -17,6 +17,8 @@ public class Board : Node2D
 	private CellColor cellColor = CellColor.Blue;
 	[Export]
 	private bool isAI = false;
+	private (int x, int y) aiMove = (x: -1, y: -1);
+	private bool isFirstTurn = true;
 	private PackedScene cell;
 
 	private int currentRound = 1;
@@ -77,7 +79,15 @@ public class Board : Node2D
 	{
 		if (isAI)
 		{
-			// TODO: Have AI select move
+			var move = BoardSolver.FindOptimalMove(Grid, bufferGrid);
+
+			if (move.x == -1 || move.y == -1) {
+				// Choosing no cell is optimal
+			}
+			else
+			{
+				Grid[move.x, move.y].UpdateCell(cellColor, CellState.Active);
+			}
 		}
 
 		BoardSolver.SolveGrid(Grid, bufferGrid, cellColor);
