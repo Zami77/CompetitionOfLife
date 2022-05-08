@@ -24,7 +24,7 @@ public static class BoardSolver
 			for (int col = 0; col < height; col++)
 			{
 				var curCell = gridCopy[row, col];
-				if (curCell.State == CellState.Empty && CountNeighbors(row, col, gridCopy) > 1)
+				if (curCell.State == CellState.Empty && CountNeighbors(row, col, gridCopy) > 0)
 				{
 					curCell.State = CellState.Active;
 					int moveVal = MaxAlgo(SolveGrid(CellGridDeepCopy(gridCopy), bufferGrid), bufferGrid);
