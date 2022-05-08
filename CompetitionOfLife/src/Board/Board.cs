@@ -131,8 +131,10 @@ public class Board : Node2D
 	{
 		var startingPattern = StartingPatternHelper.GetStartingPattern();
 
-		var midWidth = width / 2 - 2;
-		var midHeight = height / 2 - 1;
+		var variance = new Random().Next(-2, 3);
+
+		var midWidth = width / 2 - 2 + variance;
+		var midHeight = height / 2 - 1 + variance;
 
 		foreach(var cell in startingPattern.Cells)
 		{
@@ -161,7 +163,7 @@ public class Board : Node2D
 		currentRound = 1;
 		InitPopulateGrid();
 	}
-	
+
 	private void _on_Button_pressed()
 	{
 		HandleTurn();
